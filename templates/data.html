@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}NASA Data Repository - SENTINEL Space Weather Intelligence{% endblock %}
+
+{% block content %}
+<section class="data-repository">
+    <div class="container">
+        <!-- Page Header Block -->
+        <div class="page-header-block">
+            <h1 class="data-title">NASA Data Repository</h1>
+            <p class="data-subtitle">Access real-time and historical space weather datasets from NASA DONKI API for research and analysis.</p>
+            <div class="api-status-indicator">
+                <span class="status-badge" id="api-status">
+                    <i class="fas fa-satellite"></i> Connecting to NASA DONKI...
+                </span>
+            </div>
+        </div>
+
+        <!-- Data Controls Block -->
+        <div class="data-controls-block">
+            <div class="control-section">
+                <label><i class="fas fa-clock"></i> Data Time Range:</label>
+                <select id="data-time-range">
+                    <option value="365">1 Year</option>
+                    <option value="730" selected>2 Years</option>
+                    <option value="1095">3 Years</option>
+                    <option value="1825">5 Years</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="refresh-data">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+        </div>
+
+        <!-- Data Cards Block -->
+        <div class="data-cards-block">
+            <h2>Available Datasets</h2>
+            <div class="data-cards-grid">
+                <!-- Solar Flare Events Dataset -->
+                <div class="data-card" id="solar-flares-card">
+                    <div class="data-card-header">
+                        <div class="data-icon solar-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="data-title-section">
+                            <h3>Solar Flare Events</h3>
+                            <span class="record-count"><i class="fas fa-database"></i> <span id="flare-record-count">0</span> records</span>
+                        </div>
+                    </div>
+                    <p class="data-description">Real-time NASA DONKI solar flare data including X, M, and C class events with peak times, durations, and source locations.</p>
+                    <div class="data-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Last Updated:</span>
+                            <span class="meta-value" id="flare-last-updated">Loading...</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Formats:</span>
+                            <span class="meta-value">CSV, JSON</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Source:</span>
+                            <span class="meta-value source-nasa">NASA DONKI API</span>
+                        </div>
+                    </div>
+                    <div class="data-actions">
+                        <button class="btn btn-primary download-btn" data-type="solar-flares">
+                            <i class="fas fa-download"></i> Download CSV
+                        </button>
+                        <button class="btn btn-secondary preview-btn" data-type="solar-flares">
+                            <i class="fas fa-eye"></i> Preview Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CME Events Dataset -->
+                <div class="data-card" id="cme-card">
+                    <div class="data-card-header">
+                        <div class="data-icon cme-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div class="data-title-section">
+                            <h3>Coronal Mass Ejection (CME) Events</h3>
+                            <span class="record-count"><i class="fas fa-database"></i> <span id="cme-record-count">0</span> records</span>
+                        </div>
+                    </div>
+                    <p class="data-description">Comprehensive CME event data with velocity measurements, Earth arrival predictions, and analysis parameters from NASA DONKI.</p>
+                    <div class="data-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Last Updated:</span>
+                            <span class="meta-value" id="cme-last-updated">Loading...</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Formats:</span>
+                            <span class="meta-value">CSV, JSON</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Source:</span>
+                            <span class="meta-value source-nasa">NASA DONKI API</span>
+                        </div>
+                    </div>
+                    <div class="data-actions">
+                        <button class="btn btn-primary download-btn" data-type="cme">
+                            <i class="fas fa-download"></i> Download CSV
+                        </button>
+                        <button class="btn btn-secondary preview-btn" data-type="cme">
+                            <i class="fas fa-eye"></i> Preview Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Geomagnetic Storm Dataset -->
+                <div class="data-card" id="geomagnetic-card">
+                    <div class="data-card-header">
+                        <div class="data-icon geomagnetic-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="data-title-section">
+                            <h3>Geomagnetic Storm Events</h3>
+                            <span class="record-count"><i class="fas fa-database"></i> <span id="geomagnetic-record-count">0</span> records</span>
+                        </div>
+                    </div>
+                    <p class="data-description">Geomagnetic storm events with K-index measurements, storm classifications, and linked solar events from NASA DONKI.</p>
+                    <div class="data-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Last Updated:</span>
+                            <span class="meta-value" id="geomagnetic-last-updated">Loading...</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Formats:</span>
+                            <span class="meta-value">CSV, JSON</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Source:</span>
+                            <span class="meta-value source-nasa">NASA DONKI API</span>
+                        </div>
+                    </div>
+                    <div class="data-actions">
+                        <button class="btn btn-primary download-btn" data-type="geomagnetic">
+                            <i class="fas fa-download"></i> Download CSV
+                        </button>
+                        <button class="btn btn-secondary preview-btn" data-type="geomagnetic">
+                            <i class="fas fa-eye"></i> Preview Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Preview Block -->
+        <div class="data-preview-block" id="data-preview-block" style="display: none;">
+            <div class="preview-header">
+                <h2 id="preview-title">Data Preview</h2>
+                <button class="btn btn-secondary" id="close-preview">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+            <div class="preview-controls">
+                <div class="preview-stats">
+                    <span id="preview-count">0 records</span> • 
+                    <span id="preview-date-range">Date range</span>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn btn-primary" id="export-preview-csv">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                    <button class="btn btn-secondary" id="export-preview-json">
+                        <i class="fas fa-download"></i> Export JSON
+                    </button>
+                </div>
+            </div>
+            <div class="preview-table-container">
+                <table class="preview-table" id="preview-table">
+                    <thead id="preview-table-head">
+                        <!-- Dynamic headers -->
+                    </thead>
+                    <tbody id="preview-table-body">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Usage Guidelines Block -->
+        <div class="usage-guidelines-block">
+            <h2>Data Usage Guidelines</h2>
+            <div class="guidelines-grid">
+                <div class="guideline-section">
+                    <h3><i class="fas fa-file-contract"></i> Terms of Use</h3>
+                    <ul>
+                        <li>Data is provided by NASA DONKI API for research purposes</li>
+                        <li>Please cite NASA DONKI in any publications</li>
+                        <li>Data accuracy may vary; verify critical information</li>
+                        <li>Commercial use requires additional permissions</li>
+                    </ul>
+                </div>
+                <div class="guideline-section">
+                    <h3><i class="fas fa-microscope"></i> Research Applications</h3>
+                    <ul>
+                        <li>Space weather impact studies</li>
+                        <li>Satellite operations planning</li>
+                        <li>Power grid vulnerability analysis</li>
+                        <li>Aviation route optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Source Information Block -->
+        <div class="data-source-block">
+            <div class="source-info">
+                <div class="source-logo">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="source-details">
+                    <h3>Data Source</h3>
+                    <p><strong>NASA DONKI</strong> (Database of Notifications, Knowledge, Information)</p>
+                    <a href="https://ccmc.gsfc.nasa.gov/donki/" target="_blank" class="source-link">
+                        <i class="fas fa-external-link-alt"></i> Visit NASA DONKI
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/data.js') }}"></script>
+{% endblock %}
