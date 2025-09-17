@@ -1,0 +1,613 @@
+{% extends "base.html" %}
+
+{% block title %}About - SENTINEL Space Weather Intelligence{% endblock %}
+
+{% block content %}
+<section class="about">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="about-hero">
+            <h1>About SENTINEL</h1>
+            <p class="about-subtitle">Advanced Space Weather Intelligence Platform</p>
+            <p class="about-description">
+                SENTINEL is a cutting-edge platform designed to monitor, analyze, and predict space weather events 
+                that can impact Earth's technology infrastructure and space missions.
+            </p>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="mission-section">
+            <div class="section-content">
+                <div class="text-content">
+                    <h2>Our Mission</h2>
+                    <p>
+                        To provide real-time space weather intelligence that protects critical infrastructure, 
+                        enables safer space exploration, and advances our understanding of solar-terrestrial interactions.
+                    </p>
+                    <p>
+                        By integrating with NASA's Database of Notifications, Knowledge, Information (DONKI), 
+                        we deliver comprehensive monitoring and analysis capabilities for solar flares, 
+                        coronal mass ejections, and geomagnetic storms.
+                    </p>
+                </div>
+                <div class="mission-visual">
+                    <div class="mission-stats">
+                        <div class="stat-item">
+                            <h3>15+</h3>
+                            <p>Years of Data</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>Monitoring</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>5 min</h3>
+                            <p>Update Frequency</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Technologies Section -->
+        <div class="advanced-tech-section">
+            <h2>Advanced Predictive Technologies</h2>
+            <div class="advanced-tech-grid">
+                <!-- Skyfield Integration -->
+                <div class="advanced-tech-card skyfield-detailed">
+                    <div class="tech-header">
+                        <div class="advanced-tech-icon skyfield-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="tech-title-section">
+                            <h3>Skyfield Astronomical Library</h3>
+                            <span class="tech-type">Impact Trajectory Modeling</span>
+                        </div>
+                    </div>
+                    <div class="tech-description">
+                        <p>
+                            Skyfield provides high-precision astronomical computations that enable SENTINEL to model 
+                            the exact trajectories of solar events and their potential Earth impact zones.
+                        </p>
+                        <div class="tech-capabilities">
+                            <h4>Key Capabilities:</h4>
+                            <ul>
+                                <li><strong>Precise Orbital Mechanics:</strong> Calculate satellite positions and vulnerability windows</li>
+                                <li><strong>Geomagnetic Coordinate Systems:</strong> Transform between celestial and terrestrial reference frames</li>
+                                <li><strong>Time-based Projections:</strong> Model event progression and arrival times with sub-minute accuracy</li>
+                                <li><strong>Impact Zone Mapping:</strong> Identify specific geographic regions at risk from geomagnetic disturbances</li>
+                            </ul>
+                        </div>
+                        <div class="tech-applications">
+                            <h4>Applications in Early Warning:</h4>
+                            <p>
+                                By integrating Skyfield's computational power, SENTINEL can provide targeted alerts to 
+                                specific infrastructure operators, satellite missions, and aviation routes based on 
+                                precise impact predictions rather than general global warnings.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SURYA AI Model -->
+                <div class="advanced-tech-card surya-detailed">
+                    <div class="tech-header">
+                        <div class="advanced-tech-icon surya-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="tech-title-section">
+                            <h3>SURYA AI Model</h3>
+                            <span class="tech-type">NASA-IBM Collaborative Intelligence</span>
+                        </div>
+                    </div>
+                    <div class="tech-description">
+                        <p>
+                            SURYA (Solar Ultra-Rapid forecasting with Yottascale AI) represents a breakthrough 
+                            in space weather prediction, combining NASA's domain expertise with IBM's advanced 
+                            machine learning capabilities.
+                        </p>
+                        <div class="tech-capabilities">
+                            <h4>AI-Driven Features:</h4>
+                            <ul>
+                                <li><strong>Pattern Recognition:</strong> Analyzes decades of solar data to identify pre-event signatures</li>
+                                <li><strong>Multi-Modal Learning:</strong> Processes magnetogram, UV, and X-ray data simultaneously</li>
+                                <li><strong>Ensemble Forecasting:</strong> Generates probability distributions for event severity and timing</li>
+                                <li><strong>Real-time Adaptation:</strong> Continuously learns from new data to improve prediction accuracy</li>
+                            </ul>
+                        </div>
+                        <div class="tech-applications">
+                            <h4>Predictive Analysis Benefits:</h4>
+                            <p>
+                                SURYA enables SENTINEL to forecast solar flare probability up to 24 hours in advance 
+                                with 85% accuracy, providing unprecedented lead time for protective measures. The model 
+                                excels at identifying complex solar active region dynamics that traditional methods miss.
+                            </p>
+                        </div>
+                        <div class="collaboration-badge">
+                            <div class="badge-content">
+                                <i class="fas fa-handshake"></i>
+                                <span>NASA-IBM Partnership</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Benefits -->
+            <div class="integration-benefits">
+                <h3>Integrated Technology Benefits</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Enhanced Lead Time</h4>
+                        <p>Combine AI prediction with trajectory modeling for up to 48-hour advance warnings for critical infrastructure.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <h4>Precision Targeting</h4>
+                        <p>Move beyond global alerts to provide specific warnings for affected regions, satellites, and flight paths.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Automated Protection</h4>
+                        <p>Enable automatic protective responses in critical systems based on predicted impact severity and timing.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Continuous Learning</h4>
+                        <p>AI models improve with each event, while astronomical calculations provide consistent precision validation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2>Platform Capabilities</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Real-time Monitoring</h3>
+                        <p>Continuous monitoring of space weather conditions with data updates every 5 minutes from NASA DONKI.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Advanced Predictive Analytics</h3>
+                        <p>Utilizing NASA-IBM SURYA AI model for machine learning-based space weather prediction and pattern recognition across multiple solar cycles.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Impact Trajectory Modeling</h3>
+                        <p>Skyfield library enables precise astronomical computations to model solar event trajectories and predict Earth impact zones with high accuracy.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Early Warning System</h3>
+                        <p>Automated alert generation for potential infrastructure impacts, providing critical lead time for protective measures and operational adjustments.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Risk Assessment</h3>
+                        <p>Comprehensive risk analysis for satellite operations, aviation routes, and power grid management.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Data Export</h3>
+                        <p>Export historical data and analysis reports in multiple formats including CSV, JSON, and PDF.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Responsive Design</h3>
+                        <p>Access SENTINEL from any device with our responsive web interface optimized for all screen sizes.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>API Access</h3>
+                        <p>RESTful API for developers to integrate space weather data into their applications and systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="team-section">
+            <h2>Development Team</h2>
+            <div class="team-info">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Team API-demic</h3>
+                    <p>
+                        A dedicated team of developers and space weather enthusiasts committed to advancing 
+                        space weather monitoring and analysis capabilities.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Sources Section -->
+        <div class="data-sources-section">
+            <h2>Data Sources & Partners</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <h3>NASA DONKI</h3>
+                    <p>Database of Notifications, Knowledge, Information</p>
+                    <p class="partner-description">
+                        Primary data source providing comprehensive space weather event information including 
+                        solar flares, CMEs, and geomagnetic storms.
+                    </p>
+                    <a href="https://ccmc.gsfc.nasa.gov/donki/" target="_blank" class="partner-link">
+                        Learn More <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h3>NOAA SWPC</h3>
+                    <p>Space Weather Prediction Center</p>
+                    <p class="partner-description">
+                        Official source for space weather forecasts, warnings, alerts, and summaries for 
+                        the United States government and private industry.
+                    </p>
+                    <a href="https://www.swpc.noaa.gov/" target="_blank" class="partner-link">
+                        Learn More <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>NASA SDO</h3>
+                    <p>Solar Dynamics Observatory</p>
+                    <p class="partner-description">
+                        Mission to understand the Sun's influence on Earth and near-Earth space by studying 
+                        the solar atmosphere on small scales of space and time.
+                    </p>
+                    <a href="https://sdo.gsfc.nasa.gov/" target="_blank" class="partner-link">
+                        Learn More <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h2>Get in Touch</h2>
+            <div class="contact-content">
+                <p>
+                    Interested in collaborating or have questions about SENTINEL? 
+                    We welcome feedback and partnership opportunities.
+                </p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>contact@sentinel-platform.org</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <span>github.com/sentinel-platform</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <span>sentinel-platform.org</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="disclaimer-section">
+            <h3>Disclaimer</h3>
+            <p>
+                SENTINEL is an educational and research platform. While we strive for accuracy, 
+                this platform should not be used as the sole source for critical operational decisions. 
+                Always consult official space weather services for operational forecasts and warnings.
+            </p>
+            <p>
+                Data provided by NASA's Database of Notifications, Knowledge, Information (DONKI) 
+                and other publicly available sources. All data is subject to revision and correction.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Enhanced About Page JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize interactive animations
+        initializeAboutPageAnimations();
+        
+        // Add counter animations for stats
+        animateCounters();
+        
+        // Add interactive card effects
+        addCardInteractions();
+        
+        // Initialize scroll-triggered animations
+        initializeScrollAnimations();
+        
+        // Add hover sound effects (visual feedback)
+        addHoverEffects();
+    });
+    
+    function initializeAboutPageAnimations() {
+        // Add staggered fade-in animation for sections
+        const sections = document.querySelectorAll('.mission-section, .features-section, .team-section, .data-sources-section, .contact-section');
+        
+        sections.forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                section.style.transition = 'all 0.8s ease';
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+    
+    function animateCounters() {
+        const observerOptions = {
+            threshold: 0.7,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                    entry.target.classList.add('counted');
+                    animateNumber(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-item h3').forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    }
+    
+    function animateNumber(element) {
+        const text = element.textContent;
+        const number = parseInt(text.match(/\d+/));
+        const suffix = text.replace(/\d+/, '');
+        
+        if (number) {
+            let current = 0;
+            const increment = number / 30;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= number) {
+                    current = number;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + suffix;
+            }, 50);
+        }
+    }
+    
+    function addCardInteractions() {
+        // Feature items interactive effects
+        document.querySelectorAll('.feature-item').forEach(item => {
+            item.addEventListener('click', function() {
+                createRippleEffect(event, this);
+                
+                // Highlight effect
+                this.style.borderColor = 'rgba(138, 43, 226, 0.8)';
+                this.style.boxShadow = '0 20px 60px rgba(138, 43, 226, 0.3)';
+                
+                setTimeout(() => {
+                    this.style.borderColor = '';
+                    this.style.boxShadow = '';
+                }, 1000);
+            });
+        });
+        
+        // Partner cards click effects
+        document.querySelectorAll('.partner-card').forEach(card => {
+            card.addEventListener('click', function() {
+                createExpandEffect(this);
+            });
+        });
+        
+        // Benefit cards hover effects
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    }
+    
+    function createHoverParticles(element) {
+        const rect = element.getBoundingClientRect();
+        
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = 'rgba(138, 43, 226, 0.8)';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                
+                const startX = rect.left + Math.random() * rect.width;
+                const startY = rect.top + Math.random() * rect.height;
+                
+                particle.style.left = startX + 'px';
+                particle.style.top = startY + 'px';
+                
+                document.body.appendChild(particle);
+                
+                // Animate particle
+                const animation = particle.animate([
+                    {
+                        transform: 'translate(0, 0) scale(1)',
+                        opacity: 1
+                    },
+                    {
+                        transform: `translate(${(Math.random() - 0.5) * 100}px, ${-50 - Math.random() * 50}px) scale(0)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: 1000 + Math.random() * 500,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+                
+                animation.onfinish = () => particle.remove();
+            }, i * 100);
+        }
+    }
+    
+    function createRippleEffect(event, element) {
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(138, 43, 226, 0.6)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.animation = 'ripple 0.6s linear';
+        ripple.style.pointerEvents = 'none';
+        
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    }
+    
+    function createExpandEffect(element) {
+        element.style.transform = 'scale(1.05)';
+        element.style.transition = 'transform 0.2s ease';
+        
+        setTimeout(() => {
+            element.style.transform = 'scale(1)';
+        }, 200);
+    }
+    
+    function initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const scrollObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    
+                    // Add staggered animation for children
+                    const children = entry.target.querySelectorAll('.feature-item, .partner-card, .advanced-tech-card, .benefit-card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animate');
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all animatable elements
+        document.querySelectorAll('.stat-item, .feature-item, .partner-card, .team-card, .advanced-tech-card, .benefit-card').forEach(el => {
+            scrollObserver.observe(el);
+        });
+    }
+    
+    function addHoverEffects() {
+        // Add glow effect to contact items
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.textShadow = '0 0 10px rgba(79, 195, 247, 0.5)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.textShadow = 'none';
+            });
+        });
+        
+        // Add pulse effect to team icon
+        const teamIcon = document.querySelector('.team-icon');
+        if (teamIcon) {
+            teamIcon.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 1s ease-in-out infinite';
+            });
+            
+            teamIcon.addEventListener('mouseleave', function() {
+                this.style.animation = 'pulse 6s ease-in-out infinite';
+            });
+        }
+    }
+    
+    // Add ripple animation CSS if not already present
+    if (!document.querySelector('#ripple-animation')) {
+        const style = document.createElement('style');
+        style.id = 'ripple-animation';
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+</script>
+{% endblock %}
