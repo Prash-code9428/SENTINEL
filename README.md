@@ -1,4 +1,4 @@
-Ui# SENTINEL - Advanced Space Weather Intelligence Platform
+SENTINEL - Advanced Space Weather Intelligence Platform
 
 ![SENTINEL Logo](https://img.shields.io/badge/SENTINEL-Space%20Weather%20Intelligence-blueviolet)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
