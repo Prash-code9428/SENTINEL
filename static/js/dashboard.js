@@ -231,6 +231,11 @@ function setupEventListeners() {
         exportDataBtn.addEventListener('click', exportDashboardData);
     }
     
+    const exportPdfBtn = document.getElementById('export-pdf-btn');
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener('click', exportDashboardPDF);
+    }
+    
     // Filter change handlers
     const dateFilter = document.getElementById('date-filter');
     const eventFilter = document.getElementById('event-filter');
@@ -302,24 +307,40 @@ function getLastEventInfo(events, type) {
 }
 
 function updateRecentEvents(data) {
+    currentData = data;
+    updateEventDisplay();
+}
+
+function updateEventDisplay() {
     const container = document.getElementById('recent-events');
     if (!container) return;
     
-    if (!data || (!data.solar_flares?.length && !data.cme_events?.length && !data.geomagnetic_storms?.length)) {
+    if (!currentData || (!currentData.solar_flares?.length && !currentData.cme_events?.length && !currentData.geomagnetic_storms?.length)) {
         container.innerHTML = '<div class="no-events">No recent events</div>';
         return;
     }
     
-    // Combine all events and sort by date
-    const allEvents = [
-        ...(data.solar_flares || []).map(e => ({...e, type: 'FLR'})),
-        ...(data.cme_events || []).map(e => ({...e, type: 'CME'})),
-        ...(data.geomagnetic_storms || []).map(e => ({...e, type: 'GST'}))
-    ];
+    const filter = document.getElementById('event-filter')?.value || 'all';
+    let allEvents = [];
+    
+    if (filter === 'all' || filter === 'flares') {
+        allEvents.push(...(currentData.solar_flares || []).map(e => ({...e, type: 'FLR'})));
+    }
+    if (filter === 'all' || filter === 'cme') {
+        allEvents.push(...(currentData.cme_events || []).map(e => ({...e, type: 'CME'})));
+    }
+    if (filter === 'all' || filter === 'geomagnetic') {
+        allEvents.push(...(currentData.geomagnetic_storms || []).map(e => ({...e, type: 'GST'})));
+    }
+    
+    if (allEvents.length === 0) {
+        container.innerHTML = '<div class="no-events">No matching events</div>';
+        return;
+    }
     
     allEvents.sort((a, b) => {
-        const dateA = new Date(a.beginTime || a.eventTime);
-        const dateB = new Date(b.beginTime || b.eventTime);
+        const dateA = new Date(a.beginTime || a.eventTime || a.startTime);
+        const dateB = new Date(b.beginTime || b.eventTime || b.startTime);
         return dateB - dateA;
     });
     
@@ -473,7 +494,218 @@ function exportDashboardData() {
     }
     
     const filename = `sentinel-dashboard-${new Date().toISOString().split('T')[0]}`;
-    exportToJSON(currentData, filename);
+    if (typeof exportToJSON === 'function') {
+        exportToJSON(currentData, filename);
+    } else {
+        const jsonContent = JSON.stringify(currentData, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename + '.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+}
+
+async function exportDashboardPDF() {
+    const exportPdfBtn = document.getElementById('export-pdf-btn');
+    const originalHtml = exportPdfBtn ? exportPdfBtn.innerHTML : '';
+    
+    if (exportPdfBtn) {
+        exportPdfBtn.disabled = true;
+        exportPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+    }
+    
+    try {
+        if (!window.html2pdf) {
+            // Fallback to browser print if html2pdf is unavailable
+            alert('PDF generation library is loading or offline. Triggering browser print dialog.');
+            window.print();
+            if (exportPdfBtn) {
+                exportPdfBtn.disabled = false;
+                exportPdfBtn.innerHTML = originalHtml;
+            }
+            return;
+        }
+
+        // Capture Chart.js canvases as high-res images
+        const solarImg = (solarChart && typeof solarChart.toBase64Image === 'function') ? solarChart.toBase64Image('image/png', 1) : null;
+        const cmeImg = (cmeChart && typeof cmeChart.toBase64Image === 'function') ? cmeChart.toBase64Image('image/png', 1) : null;
+        const geoImg = (geomagneticChart && typeof geomagneticChart.toBase64Image === 'function') ? geomagneticChart.toBase64Image('image/png', 1) : null;
+
+        // Gather metrics and values
+        const days = document.getElementById('date-filter')?.value || 30;
+        const totalFlares = currentData?.solar_flares?.length || 0;
+        const totalCMEs = currentData?.cme_events?.length || 0;
+        const totalStorms = currentData?.geomagnetic_storms?.length || 0;
+        const lastFlare = document.getElementById('last-flare')?.textContent || 'No recent events';
+        const lastCme = document.getElementById('last-cme')?.textContent || 'No recent events';
+        const lastGeo = document.getElementById('last-geomagnetic')?.textContent || 'No recent events';
+        const systemStatus = document.getElementById('system-status')?.textContent || 'Normal';
+
+        // Prepare combined recent events
+        const allEvents = [
+            ...(currentData?.solar_flares || []).map(e => ({
+                date: e.beginTime || e.eventTime,
+                type: 'Solar Flare',
+                class: e.classType || 'Standard',
+                source: e.sourceLocation || 'Sun'
+            })),
+            ...(currentData?.cme_events || []).map(e => ({
+                date: e.startTime || e.eventTime,
+                type: 'CME',
+                class: e.speed ? `${e.speed} km/s` : 'Observed',
+                source: e.sourceLocation || 'Solar Corona'
+            })),
+            ...(currentData?.geomagnetic_storms || []).map(e => ({
+                date: e.startTime || e.eventTime,
+                type: 'Geomagnetic Storm',
+                class: e.kpIndex ? `Kp ${e.kpIndex}` : 'Active',
+                source: 'Earth Magnetosphere'
+            }))
+        ];
+
+        allEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const topEvents = allEvents.slice(0, 10);
+
+        const now = new Date();
+        const dateStr = now.toISOString().split('T')[0];
+        const timeStr = now.toUTCString();
+
+        // Build report element
+        const reportElement = document.createElement('div');
+        reportElement.className = 'sentinel-pdf-document';
+        reportElement.innerHTML = `
+            <div class="pdf-header">
+                <div class="pdf-brand">
+                    <span class="pdf-logo-icon">&#9889;</span>
+                    <div>
+                        <h1 class="pdf-title">SENTINEL SPACE WEATHER INTELLIGENCE REPORT</h1>
+                        <p class="pdf-subtitle">Advanced Space Weather Monitoring & Solar-Terrestrial Impact Assessment</p>
+                    </div>
+                </div>
+                <div class="pdf-meta-badge">
+                    <div><strong>Report Date:</strong> ${dateStr}</div>
+                    <div><strong>Generated:</strong> ${timeStr}</div>
+                    <div><strong>Time Range:</strong> Past ${days} Days</div>
+                    <div><strong>Data Feed:</strong> NASA DONKI API</div>
+                </div>
+            </div>
+
+            <div class="pdf-section-title">&#9679; Executive Intelligence Summary</div>
+            <div class="pdf-metrics-grid">
+                <div class="pdf-metric-card">
+                    <div class="pdf-metric-label">Solar Flares</div>
+                    <div class="pdf-metric-val flare">${totalFlares}</div>
+                    <div class="pdf-metric-sub">Latest: ${lastFlare}</div>
+                </div>
+                <div class="pdf-metric-card">
+                    <div class="pdf-metric-label">CME Events</div>
+                    <div class="pdf-metric-val cme">${totalCMEs}</div>
+                    <div class="pdf-metric-sub">Latest: ${lastCme}</div>
+                </div>
+                <div class="pdf-metric-card">
+                    <div class="pdf-metric-label">Geomagnetic Storms</div>
+                    <div class="pdf-metric-val geo">${totalStorms}</div>
+                    <div class="pdf-metric-sub">Latest: ${lastGeo}</div>
+                </div>
+                <div class="pdf-metric-card">
+                    <div class="pdf-metric-label">Platform Status</div>
+                    <div class="pdf-metric-val system">${systemStatus}</div>
+                    <div class="pdf-metric-sub">Data Latency: ~5 min</div>
+                </div>
+            </div>
+
+            <div class="pdf-section-title">&#9679; Space Weather Activity Charts</div>
+            <div class="pdf-charts-grid">
+                ${solarImg ? `
+                <div class="pdf-chart-box full-width">
+                    <div class="pdf-chart-title">Solar Activity Overview (X, M, C Class Flare Distribution)</div>
+                    <img src="${solarImg}" class="pdf-chart-img" alt="Solar Activity Chart" />
+                </div>` : ''}
+                <div class="pdf-charts-row">
+                    ${cmeImg ? `
+                    <div class="pdf-chart-box half-width">
+                        <div class="pdf-chart-title">Coronal Mass Ejection Speed (km/s)</div>
+                        <img src="${cmeImg}" class="pdf-chart-img" alt="CME Activity Chart" />
+                    </div>` : ''}
+                    ${geoImg ? `
+                    <div class="pdf-chart-box half-width">
+                        <div class="pdf-chart-title">Geomagnetic Activity (Kp Index)</div>
+                        <img src="${geoImg}" class="pdf-chart-img" alt="Geomagnetic Activity Chart" />
+                    </div>` : ''}
+                </div>
+            </div>
+
+            <div class="pdf-section-title" style="margin-top: 18px;">&#9679; Significant Space Weather Events Log</div>
+            <table class="pdf-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Event Type</th>
+                        <th>Classification / Intensity</th>
+                        <th>Source Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${topEvents.length > 0 ? topEvents.map(evt => `
+                        <tr>
+                            <td>${formatDate(evt.date)}</td>
+                            <td><strong>${evt.type}</strong></td>
+                            <td><span class="pdf-badge ${evt.type.toLowerCase().replace(/\s+/g, '-')}">${evt.class}</span></td>
+                            <td>${evt.source}</td>
+                        </tr>
+                    `).join('') : `
+                        <tr><td colspan="4" style="text-align:center; padding: 12px;">No significant events recorded in this time range.</td></tr>
+                    `}
+                </tbody>
+            </table>
+
+            <div class="pdf-footer">
+                <div class="pdf-footer-text">
+                    <p>SENTINEL Platform &bull; NASA DONKI Intelligence Integration &bull; Team API-demic</p>
+                    <p>Designed for space mission planning, satellite operations, and terrestrial infrastructure protection.</p>
+                </div>
+                <div class="pdf-stamp">OFFICIAL BULLETIN</div>
+            </div>
+        `;
+
+        document.body.appendChild(reportElement);
+
+        const opt = {
+            margin: [8, 8, 8, 8],
+            filename: `sentinel-space-weather-report-${dateStr}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#0a0a1a',
+                logging: false
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        await window.html2pdf().set(opt).from(reportElement).save();
+        document.body.removeChild(reportElement);
+
+        if (exportPdfBtn) {
+            exportPdfBtn.innerHTML = '<i class="fas fa-check"></i> Exported!';
+            setTimeout(() => {
+                exportPdfBtn.innerHTML = originalHtml;
+                exportPdfBtn.disabled = false;
+            }, 2500);
+        }
+    } catch (err) {
+        console.error('Failed to generate PDF report:', err);
+        alert('Failed to generate PDF report: ' + err.message);
+        if (exportPdfBtn) {
+            exportPdfBtn.disabled = false;
+            exportPdfBtn.innerHTML = originalHtml;
+        }
+    }
 }
 
 function loadFallbackData() {

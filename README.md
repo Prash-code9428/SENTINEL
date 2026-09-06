@@ -89,7 +89,7 @@ To get full functionality, you need a NASA API key:
 - Status cards for latest events
 - Interactive charts showing solar activity
 - System status indicators
-- Data export capabilities
+- Data export capabilities (JSON & PDF Space Weather Intelligence Reports)
 
 ### 📁 Data Repository
 - Historical space weather data
@@ -193,7 +193,7 @@ trident new/
 
 ## 🎯 Future Enhancements
 
-- [ ] PDF report generation
+- [x] PDF report generation (Space Weather Intelligence Bulletin)
 - [ ] Email alerts for major events
 - [ ] Mobile app version
 - [ ] Machine learning predictions

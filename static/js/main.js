@@ -156,13 +156,11 @@ function showLoadingStates() {
 class SentinelAPI {
     constructor() {
         this.baseURL = '';
-        this.isLoading = false;
+        this.activeRequests = 0;
     }
     
     async fetchData(endpoint, params = {}) {
-        if (this.isLoading) return null;
-        
-        this.isLoading = true;
+        this.activeRequests++;
         const urlParams = new URLSearchParams(params);
         const url = `/api/${endpoint}?${urlParams}`;
         
@@ -172,12 +170,12 @@ class SentinelAPI {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            this.isLoading = false;
             return data;
         } catch (error) {
             console.error('API Error:', error);
-            this.isLoading = false;
             return null;
+        } finally {
+            this.activeRequests--;
         }
     }
     
@@ -204,6 +202,52 @@ class SentinelAPI {
 
 // Global API instance
 window.sentinelAPI = new SentinelAPI();
+
+// Global Export Utility Functions
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+function exportToJSON(data, filename) {
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+        alert('No data available to export');
+        return;
+    }
+    const jsonContent = JSON.stringify(data, null, 2);
+    downloadFile(jsonContent, filename + '.json', 'application/json');
+}
+
+function exportToCSV(data, filename) {
+    if (!data || data.length === 0) {
+        alert('No data available to export');
+        return;
+    }
+    const headers = ['Date', 'Type', 'Classification', 'Peak Time', 'Source Location'];
+    const csvContent = [
+        headers.join(','),
+        ...data.map(event => [
+            `"${formatDate(event.date || event.beginTime || event.eventTime)}"`,
+            `"${event.type || 'Unknown'}"`,
+            `"${event.classification || event.classType || 'N/A'}"`,
+            `"${formatDate(event.peakTime || event.startTime || event.beginTime)}"`,
+            `"${event.sourceLocation || 'N/A'}"`
+        ].join(','))
+    ].join('\n');
+    downloadFile(csvContent, filename + '.csv', 'text/csv');
+}
+
+// Expose exports on window for cross-script compatibility
+window.downloadFile = downloadFile;
+window.exportToJSON = exportToJSON;
+window.exportToCSV = exportToCSV;
 
 // Utility Functions
 function formatDate(dateString) {
